@@ -1,0 +1,11 @@
+﻿
+@model Lombiq.SmartNotifications.Models.SmartNotificationsPart
+<fieldset>
+    <legend>@T("Content sharing settigs")</legend>
+    <div>
+        @Html.LabelFor(m => m.AddThisAccount, @T("AddThis service account"))
+        @Html.EditorFor(m => m.AddThisAccount)
+        @Html.ValidationMessageFor(m => m.AddThisAccount, "*")
+    </div>
+</fieldset>
+
