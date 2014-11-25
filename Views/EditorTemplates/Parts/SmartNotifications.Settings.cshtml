@@ -1,11 +1,10 @@
-﻿
-@model Lombiq.SmartNotifications.Models.SmartNotificationsPart
+﻿@model Lombiq.SmartNotifications.Models.SmartNotificationsPart
 <fieldset>
-    <legend>@T("Content sharing settigs")</legend>
+    <legend>@T("Notification settigs")</legend>
     <div>
-        @Html.LabelFor(m => m.AddThisAccount, @T("AddThis service account"))
-        @Html.EditorFor(m => m.AddThisAccount)
-        @Html.ValidationMessageFor(m => m.AddThisAccount, "*")
+        @Html.CheckBoxFor(x => x.isClosable, new { @checked = "checked" })
+        @Html.CheckBoxFor(x => x.isFading, new { @checked = "checked" })
+        
     </div>
 </fieldset>
 

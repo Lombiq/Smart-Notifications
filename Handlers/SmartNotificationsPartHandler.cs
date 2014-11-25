@@ -31,7 +31,7 @@ namespace Lombiq.SmartNotifications.Handlers
             if (context.ContentItem.ContentType != "Site")
                 return;
             base.GetItemMetadata(context);
-            context.Metadata.EditorGroupInfo.Add(new GroupInfo(T("Module")));
+            context.Metadata.EditorGroupInfo.Add(new GroupInfo(T("Notifications")));
         }
     }
 }
