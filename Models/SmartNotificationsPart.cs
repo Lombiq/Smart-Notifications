@@ -6,19 +6,19 @@ using System.Web;
 
 namespace Lombiq.SmartNotifications.Models
 {
-    public class SmartNotificationsPart : ContentPart<SmartNofiticationsPartRecord>
+    public class SmartNotificationsPart : ContentPart
     {
         public bool isFading 
         {
-            get { return Record.isFading; }
-            set { Record.isFading = value; }
+            get { return this.Retrieve(x => x.isFading); }
+            set { this.Store(x => x.isFading, value); }
         }
 
 
         public bool isClosable
         {
-            get { return Record.isClosable; }
-            set { Record.isClosable = value; }
+            get { return this.Retrieve(x => x.isClosable); }
+            set { this.Store(x=>x.isClosable, value ); }
         }
     }
 }

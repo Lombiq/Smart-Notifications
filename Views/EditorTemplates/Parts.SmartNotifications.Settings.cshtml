@@ -1,0 +1,23 @@
+﻿@model Lombiq.SmartNotifications.Models.SmartNotificationsPart
+
+    <fieldset>
+        <legend>@T("Notification settings")</legend>
+        <ol>
+            <li>
+                @Html.EditorFor(m => m.isClosable)
+                <label for="@Html.FieldIdFor(m => m.isClosable)" class="forcheckbox">@T("Closable")</label>
+                @Html.ValidationMessageFor(m => m.isClosable)
+                <span class="hint">@T("If checked, the notification will be closable.")</span>
+            </li>
+
+            <li>
+                @Html.EditorFor(m => m.isFading)
+                <label for="@Html.FieldIdFor(m => m.isFading)" class="forcheckbox">@T("Fading")</label>
+                @Html.ValidationMessageFor(m => m.isFading)
+                <span class="hint">@T("If checked, the notification will be fading.")</span>
+
+                
+            </li>
+        </ol>
+    </fieldset>
+
