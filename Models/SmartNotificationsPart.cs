@@ -14,7 +14,6 @@ namespace Lombiq.SmartNotifications.Models
             set { this.Store(x => x.isFading, value); }
         }
 
-
         public bool isClosable
         {
             get { return this.Retrieve(x => x.isClosable); }

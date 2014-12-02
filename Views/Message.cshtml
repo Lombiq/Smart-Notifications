@@ -5,24 +5,24 @@
     Script.Require("jQuery").AtHead();
     var siteService = WorkContext.Resolve<ISiteService>();
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
+    string message = Model.Message.ToString();
 }
-@if (settings.isClosable && settings.isFading)
+@if ((settings.isClosable || message.Contains("\\CLO:\\")) && (settings.isFading || message.Contains("\\FAD:\\")))
 {
-    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))<span id='closeMessage' style="float: right; display: inline-block;">X</span></div>
+    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage' style="float: right; display: inline-block;">X</span></div>
 }
 else
 {
-    if (settings.isClosable)
+    if (settings.isClosable || message.Contains("\\CLO:\\"))
     {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))<span id='closeMessage' style="float: right; display: inline-block;">X</span>
+        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage' style="float: right; display: inline-block;">X</span>
 </div>
     }
-    if (settings.isFading)
+    else if (settings.isFading || message.Contains("\\FAD:\\"))
     {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
+        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))</div>
     }
-
-    if (!settings.isFading && !settings.isClosable)
+    else if (!settings.isFading && !settings.isClosable)
     {
         <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
     }

@@ -12,6 +12,8 @@ namespace Orchard.UI.Notify
         /// <param name="message">A localized message to display</param>
         public static void Closable(this INotifier notifier, LocalizedString message)
         {
+            LocalizedString prefix = new LocalizedString("\\CLO:\\");
+            message = new LocalizedString(prefix.ToString() + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
 
@@ -23,6 +25,8 @@ namespace Orchard.UI.Notify
         /// <param name="message">A localized message to display</param>
         public static void Fading(this INotifier notifier, LocalizedString message)
         {
+            LocalizedString prefix = new LocalizedString("\\FAD:\\");
+            message = new LocalizedString(prefix.ToString() + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
     }
