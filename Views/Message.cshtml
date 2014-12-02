@@ -3,44 +3,41 @@
 @using Orchard.ContentManagement;
 @{
     Script.Require("jQuery").AtHead();
+    Style.Include("lombiq-smartnotifications-style.css").AtHead();
     var siteService = WorkContext.Resolve<ISiteService>();
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
     string message = Model.Message.ToString();
+    var isClosable = settings.IsClosable || message.Contains("\\CLO:\\");
+    var isFading = settings.IsFading || message.Contains("\\FAD:\\"); 
 }
-@if ((settings.isClosable || message.Contains("\\CLO:\\")) && (settings.isFading || message.Contains("\\FAD:\\")))
+@if (isClosable && isFading)
 {
-    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage' style="float: right; display: inline-block;">X</span></div>
+    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage'>X</span></div>
 }
 else
 {
-    if (settings.isClosable || message.Contains("\\CLO:\\"))
+    if (isClosable)
     {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage' style="float: right; display: inline-block;">X</span>
-</div>
+        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage'>X</span></div>
     }
-    else if (settings.isFading || message.Contains("\\FAD:\\"))
+    else if (isFading)
     {
         <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))</div>
     }
-    else if (!settings.isFading && !settings.isClosable)
+    else if (!settings.IsFading && !settings.IsClosable)
     {
         <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
     }
-
 }
-
 <script>
     $(document).ready(function(){    
         $("#closeMessage").click(function () {
             $(".message").hide();
         });
-        @if(settings.isFading)
+        @if(settings.IsFading)
         {
-            <text>
-                setTimeout(function () { $('.message').fadeOut(1000) }, 5000);
-            </text>
+            <text>setTimeout(function () { $('.message').fadeOut(1000) }, 5000);</text>
         }
-        
     });
 </script>
 

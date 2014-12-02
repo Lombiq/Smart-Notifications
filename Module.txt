@@ -1,7 +1,7 @@
-﻿Name: Lombiq SmartNotifications
+﻿Name: SmartNotifications
 AntiForgery: enabled
 Author: Lombiq
-Website: http://orchardproject.net
+Website: http://lombiq.com
 Version: 1.0
 OrchardVersion: 1.8
 Description: Adds the ability to close or fade away notifications.
