@@ -29,8 +29,10 @@ else
         <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
     }
 }
-<script>
-    $(document).ready(function(){    
+<script type="text/javascript">
+(function ($) {
+    $(function ()
+    {
         $("#closeMessage").click(function () {
             $(".message").hide();
         });
@@ -39,5 +41,6 @@ else
             <text>setTimeout(function () { $('.message').fadeOut(1000) }, 5000);</text>
         }
     });
+})(jQuery);
 </script>
 
