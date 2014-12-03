@@ -1,4 +1,4 @@
-﻿Name: SmartNotifications
+﻿Name: Smart Notifications
 AntiForgery: enabled
 Author: Lombiq
 Website: http://lombiq.com
@@ -10,3 +10,4 @@ Features:
 		Name: Lombiq SmartNotifications
         Description: Adds the ability to close or fade away notifications.
 		Category: User notifications
+		Dependencies: Piedone.HelpfulLibraries.Utilities

@@ -1,6 +1,7 @@
 ﻿@using Orchard.Settings;
 @using Lombiq.SmartNotifications.Models;
 @using Orchard.ContentManagement;
+@using Piedone.HelpfulLibraries.Utilities;
 @{
     Script.Require("jQuery").AtHead();
     Style.Include("lombiq-smartnotifications-style.css").AtHead();
@@ -12,13 +13,13 @@
 }
 @if (isClosable && isFading)
 {
-    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage'>X</span></div>
+    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage'>&#10006;</span></div>
 }
 else
 {
     if (isClosable)
     {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage'>X</span></div>
+        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage'>&#10006;</span></div>
     }
     else if (isFading)
     {
@@ -29,18 +30,18 @@ else
         <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
     }
 }
+@if(this.WasNotDisplayed("messageJS"))
+{
 <script type="text/javascript">
 (function ($) {
-    $(function ()
-    {
-        $("#closeMessage").click(function () {
-            $(".message").hide();
+    $(function () {
+        $(".message > span").click(function () {
+            $(this).parent().hide();
         });
-        @if(settings.IsFading)
-        {
-            <text>setTimeout(function () { $('.message').fadeOut(1000) }, 5000);</text>
+        @if(settings.IsFading) {
+            <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
         }
     });
 })(jQuery);
 </script>
-
+}

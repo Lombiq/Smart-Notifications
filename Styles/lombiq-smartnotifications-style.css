@@ -1,4 +1,5 @@
 ﻿span#closeMessage {
     float: right; 
     display: inline-block;
+    cursor: pointer; 
 }

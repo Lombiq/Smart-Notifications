@@ -4,12 +4,11 @@
     <ol>
         <li>
             @Html.EditorFor(m => m.IsClosable)<label for="@Html.FieldIdFor(m => m.IsClosable)" class="forcheckbox">@T("Closable")</label>
-            @Html.ValidationMessageFor(m => m.IsClosable)<span class="hint">@T("If checked, the notification will be closable.")</span>
+            @Html.ValidationMessageFor(m => m.IsClosable)<span class="hint">@T("If checked, all the notifications will be closable.")</span>
         </li>
         <li>
             @Html.EditorFor(m => m.IsFading)<label for="@Html.FieldIdFor(m => m.IsFading)" class="forcheckbox">@T("Fading")</label>
-            @Html.ValidationMessageFor(m => m.IsFading)<span class="hint">@T("If checked, the notification will be fading.")</span>
+            @Html.ValidationMessageFor(m => m.IsFading)<span class="hint">@T("If checked, all the notifications will be fading.")</span>
         </li>
     </ol>
 </fieldset>
-
