@@ -19,5 +19,11 @@ namespace Lombiq.SmartNotifications.Models
             get { return this.Retrieve(x => x.IsClosable); }
             set { this.Store(x=>x.IsClosable, value ); }
         }
+
+        public bool IsSticky
+        {
+            get { return this.Retrieve(x => x.IsSticky); }
+            set { this.Store(x => x.IsSticky, value); }
+        }
     }
 }

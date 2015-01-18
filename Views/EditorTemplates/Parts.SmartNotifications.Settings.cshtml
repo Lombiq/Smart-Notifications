@@ -10,5 +10,9 @@
             @Html.EditorFor(m => m.IsFading)<label for="@Html.FieldIdFor(m => m.IsFading)" class="forcheckbox">@T("Fading")</label>
             @Html.ValidationMessageFor(m => m.IsFading)<span class="hint">@T("If checked, all the notifications will be fading.")</span>
         </li>
+        <li>
+            @Html.EditorFor(m => m.IsSticky)<label for="@Html.FieldIdFor(m => m.IsSticky)" class="forcheckbox">@T("Sticky")</label>
+            @Html.ValidationMessageFor(m => m.IsSticky)<span class="hint">@T("If checked, all the notifications will be sticky.")</span>
+        </li>
     </ol>
 </fieldset>

@@ -27,5 +27,17 @@ namespace Orchard.UI.Notify
             message = new LocalizedString("\\FAD:\\" + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
+
+        /// <summary>
+        /// Adds a new UI notification of type Sticky
+        /// </summary>
+        /// <seealso cref="Orchard.UI.Notify.INotifier.Add()"/>
+        /// <param name="notifier"></param>
+        /// <param name="message">A localized message to display</param>
+        public static void Sticky(this INotifier notifier, LocalizedString message)
+        {
+            message = new LocalizedString("\\STI:\\" + message.ToString());
+            notifier.Add(NotifyType.Information, message);
+        }
     }
 }

@@ -2,46 +2,71 @@
 @using Lombiq.SmartNotifications.Models;
 @using Orchard.ContentManagement;
 @using Piedone.HelpfulLibraries.Utilities;
+@using Lombiq.SmartNotifications.Services;
 @{
     Script.Require("jQuery").AtHead();
     Style.Include("lombiq-smartnotifications-style.css").AtHead();
     var siteService = WorkContext.Resolve<ISiteService>();
+    var notificationService = WorkContext.Resolve<INotificationManager>();
+    var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
     string message = Model.Message.ToString();
     var isClosable = settings.IsClosable || message.Contains("\\CLO:\\");
-    var isFading = settings.IsFading || message.Contains("\\FAD:\\"); 
+    var isFading = settings.IsFading || message.Contains("\\FAD:\\");
+    var isSticky = settings.IsSticky || message.Contains("\\STI:\\");
 }
-@if (isClosable && isFading)
+
+<div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))@if(isClosable) {<span id='closeMessage'>&#10006;</span> }</div>
+
+@if (this.WasNotDisplayed("messageJS"))
 {
-    <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\",""))<span id='closeMessage'>&#10006;</span></div>
-}
-else
-{
-    if (isClosable)
+    if (isSticky)
     {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))<span id='closeMessage'>&#10006;</span></div>
-    }
-    else if (isFading)
-    {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))</div>
-    }
-    else if (!settings.IsFading && !settings.IsClosable)
-    {
-        <div class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />"))</div>
-    }
-}
-@if(this.WasNotDisplayed("messageJS"))
-{
-<script type="text/javascript">
-(function ($) {
-    $(function () {
-        $(".message > span").click(function () {
-            $(this).parent().hide();
-        });
-        @if(settings.IsFading) {
-            <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+        foreach (var row in notificationService.GetNotifications(WorkContext.CurrentUser.Id.ToString()))
+        {
+            <div class="message message-@Model.Type" message-id="@row.Id">@row.NotificationMessage @if (isClosable) {<span id='closeMessage'>&#10006;</span> }</div>
         }
-    });
-})(jQuery);
-</script>
+        <script type="text/javascript">
+        (function ($)
+        {
+            $(function () {
+                $.get("@baseUrl/Lombiq.SmartNotifications/SmartNotifications/SaveNotification",
+                  {
+                      NotificationMessage : "@message"
+                  },
+                  function (data) {
+                      console.log(data);
+                  });
+                $(".message > span").click(function () {
+                    $.get("@baseUrl/Lombiq.SmartNotifications/SmartNotifications/RemoveNotification",
+                      {
+                          NotificationID: $(this).parent().attr("message-id")
+                      },
+                      function (data) {
+                          console.log(data);
+                      });
+                    $(this).parent().hide();
+                });
+                @if(settings.IsFading) {
+                    <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+                }
+            });
+        }
+        )(jQuery);
+        </script> 
+    }
+    else
+    {
+        <script type="text/javascript">
+            (function ($) {
+                $(".message > span").click(function () {
+                    $(this).parent().hide();
+                });
+                @if(settings.IsFading) {
+                    <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+                }
+
+            })(jQuery);
+        </script> 
+    }
 }
