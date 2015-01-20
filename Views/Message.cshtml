@@ -58,12 +58,13 @@ else
     {
         <script type="text/javascript">
             (function ($) {
-                $(".message > span").click(function () {
-                    $(this).parent().hide();
-                });
-                @if (settings.MakeAllNotificationsFading) {
-                    <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
-                }
+                $(function () {
+                    $(".message > span").click(function () {
+                        $(this).parent().hide();
+                    });
+                    @if (settings.MakeAllNotificationsFading) {
+                        <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+                    }});
             })(jQuery);
         </script> 
     }
