@@ -1,4 +1,5 @@
-﻿using Orchard.Localization;
+﻿using Lombiq.SmartNotifications;
+using Orchard.Localization;
 
 namespace Orchard.UI.Notify
 {
@@ -12,7 +13,7 @@ namespace Orchard.UI.Notify
         /// <param name="message">A localized message to display</param>
         public static void Closable(this INotifier notifier, LocalizedString message)
         {
-            message = new LocalizedString("\\CLO:\\" + message.ToString());
+            message = new LocalizedString(Constants.Closable + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
 
@@ -24,7 +25,7 @@ namespace Orchard.UI.Notify
         /// <param name="message">A localized message to display</param>
         public static void Fading(this INotifier notifier, LocalizedString message)
         {
-            message = new LocalizedString("\\FAD:\\" + message.ToString());
+            message = new LocalizedString(Constants.Fading + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
 
@@ -36,7 +37,7 @@ namespace Orchard.UI.Notify
         /// <param name="message">A localized message to display</param>
         public static void Sticky(this INotifier notifier, LocalizedString message)
         {
-            message = new LocalizedString("\\STI:\\" + message.ToString());
+            message = new LocalizedString(Constants.Sticky + message.ToString());
             notifier.Add(NotifyType.Information, message);
         }
     }

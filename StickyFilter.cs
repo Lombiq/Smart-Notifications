@@ -36,7 +36,7 @@ namespace Lombiq.SmartNotifications
 
         public void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if ((_os.WorkContext.CurrentSite.As<SmartNotificationsPart>()).IsSticky)
+            if ((_os.WorkContext.CurrentSite.As<SmartNotificationsPart>()).MakeAllNotificationsSticky)
             {
                 var tempData = filterContext.Controller.TempData;
                 var sb = new StringBuilder();

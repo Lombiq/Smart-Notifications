@@ -3,16 +3,16 @@
     <legend>@T("Notification settings")</legend>
     <ol>
         <li>
-            @Html.EditorFor(m => m.IsClosable)<label for="@Html.FieldIdFor(m => m.IsClosable)" class="forcheckbox">@T("Closable")</label>
-            @Html.ValidationMessageFor(m => m.IsClosable)<span class="hint">@T("If checked, all the notifications will be closable.")</span>
+            @Html.EditorFor(m => m.MakeAllNotificationsClosable)<label for="@Html.FieldIdFor(m => m.MakeAllNotificationsClosable)" class="forcheckbox">@T("Closable")</label>
+            @Html.ValidationMessageFor(m => m.MakeAllNotificationsClosable)<span class="hint">@T("If checked, all the notifications will be closable.")</span>
         </li>
         <li>
-            @Html.EditorFor(m => m.IsFading)<label for="@Html.FieldIdFor(m => m.IsFading)" class="forcheckbox">@T("Fading")</label>
-            @Html.ValidationMessageFor(m => m.IsFading)<span class="hint">@T("If checked, all the notifications will be fading.")</span>
+            @Html.EditorFor(m => m.MakeAllNotificationsFading)<label for="@Html.FieldIdFor(m => m.MakeAllNotificationsFading)" class="forcheckbox">@T("Fading")</label>
+            @Html.ValidationMessageFor(m => m.MakeAllNotificationsFading)<span class="hint">@T("If checked, all the notifications will be fading.")</span>
         </li>
         <li>
-            @Html.EditorFor(m => m.IsSticky)<label for="@Html.FieldIdFor(m => m.IsSticky)" class="forcheckbox">@T("Sticky")</label>
-            @Html.ValidationMessageFor(m => m.IsSticky)<span class="hint">@T("If checked, all the notifications will be sticky.")</span>
+            @Html.EditorFor(m => m.MakeAllNotificationsSticky)<label for="@Html.FieldIdFor(m => m.MakeAllNotificationsSticky)" class="forcheckbox">@T("Sticky")</label>
+            @Html.ValidationMessageFor(m => m.MakeAllNotificationsSticky)<span class="hint">@T("If checked, all the notifications will be sticky.")</span>
         </li>
     </ol>
 </fieldset>

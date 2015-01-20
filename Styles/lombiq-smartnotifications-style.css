@@ -1,5 +1,6 @@
-﻿span#closeMessage {
-    float: right; 
-    display: inline-block;
-    cursor: pointer; 
+﻿span#close-message {
+  float: right;
+  display: inline-block;
+  cursor: pointer;
 }
+/*# sourceMappingURL=lombiq-smartnotifications-style.css.map */

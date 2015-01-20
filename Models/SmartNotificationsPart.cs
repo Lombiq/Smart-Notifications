@@ -8,22 +8,22 @@ namespace Lombiq.SmartNotifications.Models
 {
     public class SmartNotificationsPart : ContentPart
     {
-        public bool IsFading 
+        public bool MakeAllNotificationsFading 
         {
-            get { return this.Retrieve(x => x.IsFading); }
-            set { this.Store(x => x.IsFading, value); }
+            get { return this.Retrieve(x => x.MakeAllNotificationsFading); }
+            set { this.Store(x => x.MakeAllNotificationsFading, value); }
         }
 
-        public bool IsClosable
+        public bool MakeAllNotificationsClosable
         {
-            get { return this.Retrieve(x => x.IsClosable); }
-            set { this.Store(x=>x.IsClosable, value ); }
+            get { return this.Retrieve(x => x.MakeAllNotificationsClosable); }
+            set { this.Store(x=>x.MakeAllNotificationsClosable, value ); }
         }
 
-        public bool IsSticky
+        public bool MakeAllNotificationsSticky
         {
-            get { return this.Retrieve(x => x.IsSticky); }
-            set { this.Store(x => x.IsSticky, value); }
+            get { return this.Retrieve(x => x.MakeAllNotificationsSticky); }
+            set { this.Store(x => x.MakeAllNotificationsSticky, value); }
         }
     }
 }

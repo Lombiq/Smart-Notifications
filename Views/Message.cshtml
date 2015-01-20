@@ -3,6 +3,7 @@
 @using Orchard.ContentManagement;
 @using Piedone.HelpfulLibraries.Utilities;
 @using Lombiq.SmartNotifications.Services;
+@using Lombiq.SmartNotifications;
 @{
     Script.Require("jQuery").AtHead();
     Style.Include("lombiq-smartnotifications-style.css").AtHead();
@@ -12,17 +13,17 @@
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
     string message = @Html.Raw(Html.Encode(Model.Message)).ToString();
     string id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|')+1);
-    var isClosable = settings.IsClosable || message.Contains("\\CLO:\\");
-    var isFading = settings.IsFading || message.Contains("\\FAD:\\");
-    var isSticky = settings.IsSticky || message.Contains("\\STI:\\");
+    var isClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
+    var isFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
+    var isSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
 }
 @if(isSticky)
 { 
-    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\","").Replace("\\FAD:\\","")).ToString().Substring(0,Model.Message.ToString().IndexOf('|'))@if(isClosable) {<span id='closeMessage'>&#10006;</span> }</div>
+    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, "")).ToString().Substring(0, Model.Message.ToString().IndexOf('|'))@if (isClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 else
 {
-    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace("\\CLO:\\", "").Replace("\\FAD:\\", ""))@if (isClosable) {<span id='closeMessage'>&#10006;</span> }</div>
+    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""))@if (isClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
@@ -45,7 +46,7 @@ else
                     }
                     $(this).parent().hide();
                 });
-                @if(settings.IsFading) {
+                @if(settings.MakeAllNotificationsFading) {
                     <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
                 }
             });
@@ -60,7 +61,7 @@ else
                 $(".message > span").click(function () {
                     $(this).parent().hide();
                 });
-                @if(settings.IsFading) {
+                @if (settings.MakeAllNotificationsFading){
                     <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
                 }
             })(jQuery);
