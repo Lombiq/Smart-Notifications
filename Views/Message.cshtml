@@ -6,32 +6,32 @@
 @using Lombiq.SmartNotifications;
 @{
     Script.Require("jQuery").AtHead();
-    Style.Include("lombiq-smartnotifications-style.css").AtHead();
+    Style.Include("lombiq-smartnotifications-style.css");
     var siteService = WorkContext.Resolve<ISiteService>();
     var notificationService = WorkContext.Resolve<INotificationManager>();
     var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    string message = @Html.Raw(Html.Encode(Model.Message)).ToString();
-    string id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|')+1);
-    var isClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
-    var isFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
-    var isSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
+    var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
+    var Id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|')+1);
+    var MakeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
+    var MakeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
+    var MakeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
+    var HtmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
-@if(isSticky)
+@if (MakeAllNotificationsSticky)
 { 
-    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, "")).ToString().Substring(0, Model.Message.ToString().IndexOf('|'))@if (isClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div message-id="@Id" class="message message-@Model.Type">@HtmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 else
 {
-    <div message-id="@id" class="message message-@Model.Type">@Html.Raw(Html.Encode(Model.Message).Replace("\n", "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""))@if (isClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div message-id="@Id" class="message message-@Model.Type">@HtmlMessage @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
-    if (isSticky)
+    if (MakeAllNotificationsSticky)
     {
         <script type="text/javascript">
-        (function ($)
-        {
+        (function ($) {
             $(function () {
                 var uri = "@baseUrl" + '/api/Lombiq.SmartNotifications/Sticky';
                 $(".message > span").click(function () {
@@ -61,7 +61,7 @@ else
                 $(".message > span").click(function () {
                     $(this).parent().hide();
                 });
-                @if (settings.MakeAllNotificationsFading){
+                @if (settings.MakeAllNotificationsFading) {
                     <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
                 }
             })(jQuery);
