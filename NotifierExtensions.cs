@@ -8,8 +8,7 @@ namespace Orchard.UI.Notify
         /// <summary>
         /// Adds a new UI notification of type Closable
         /// </summary>
-        /// <seealso cref="Orchard.UI.Notify.INotifier.Add()"/>
-        /// <param name="notifier"></param>
+        /// <seealso cref="INotifier.Add()"/>
         /// <param name="message">A localized message to display</param>
         public static void Closable(this INotifier notifier, LocalizedString message)
         {
@@ -20,8 +19,7 @@ namespace Orchard.UI.Notify
         /// <summary>
         /// Adds a new UI notification of type Fading
         /// </summary>
-        /// <seealso cref="Orchard.UI.Notify.INotifier.Add()"/>
-        /// <param name="notifier"></param>
+        /// <seealso cref="INotifier.Add()"/>
         /// <param name="message">A localized message to display</param>
         public static void Fading(this INotifier notifier, LocalizedString message)
         {
@@ -32,8 +30,7 @@ namespace Orchard.UI.Notify
         /// <summary>
         /// Adds a new UI notification of type Sticky
         /// </summary>
-        /// <seealso cref="Orchard.UI.Notify.INotifier.Add()"/>
-        /// <param name="notifier"></param>
+        /// <seealso cref="INotifier.Add()"/>
         /// <param name="message">A localized message to display</param>
         public static void Sticky(this INotifier notifier, LocalizedString message)
         {

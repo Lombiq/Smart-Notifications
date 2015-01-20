@@ -38,7 +38,7 @@ namespace Lombiq.SmartNotifications.Services
         public void DeleteNotification(int id)
         {
             var notification = _notificationRepository.Get(id);
-            //the second parameter is needed, because if there was not present anybody was able to delete notifications by ID
+            //If the second condition wouldn't be present anybody would be able to delete notifications by knowing someone else's session ID.
             if (notification != null && notification.SessionId == _hca.Current().Session.SessionID)
             {
                 _notificationRepository.Delete(notification);

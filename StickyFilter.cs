@@ -40,12 +40,12 @@ namespace Lombiq.SmartNotifications
             {
                 var tempData = filterContext.Controller.TempData;
                 var sb = new StringBuilder();
-                //save the current notification to db
+                //This foreach will save the currently displayed notifications to the database. 
                 foreach (var entry in _notifier.List())
                 {
                     _notificationManager.SaveNotification(entry.Message.ToString(), Convert.ToString(entry.Type));
                 }
-                //read all notifications
+                //This foreach reads all notifications from the database.
                 foreach (var row in _notificationManager.GetNotifications())
                 {
                     sb.Append(Convert.ToString(row.NotificationType)).Append(':').AppendLine(string.Format("{0}|{1}", row.NotificationMessage, row.Id)).AppendLine("-");
