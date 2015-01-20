@@ -15,7 +15,7 @@ namespace Lombiq.SmartNotifications.Migrations
                 .Column<int>("Id", column => column.PrimaryKey().Identity())
                 .Column<string>("SessionId")
                 .Column<string>("NotificationType")
-                .Column<string>("NotificationMessage")
+                .Column<string>("NotificationMessage", column => column.Unlimited())
                 ).AlterTable(typeof(StickyNotificationRecord).Name, table => table
                 .CreateIndex("SmartNotification", new string[] {"SessionId"})
                 );
