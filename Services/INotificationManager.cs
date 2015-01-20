@@ -13,19 +13,19 @@ namespace Lombiq.SmartNotifications.Services
         /// This method gets the notifications for the actual user.
         /// </summary>
         /// <returns>Returns the notification messages for the actual user.</returns>
-        IEnumerable<SmartNotificationsRecord> GetNotifications(string UserId);
+        IEnumerable<StickyRecord> GetNotifications();
 
         /// <summary>
-        /// This method saves the notifications.
+        /// This method saves the notifications to db.
         /// </summary>
-        /// <param name="UserId"></param>
         /// <param name="NotificationMessage"></param>
-        void SaveNotification(string UserId, string NotificationMessage);
+        /// <param name="NotificationType"></param>
+        void SaveNotification(string NotificationMessage, string NotificationType);
 
         /// <summary>
         /// This method removes the selcted record from the table.
         /// </summary>
         /// <param name="Id"></param>
-        void DeleteNotification(int Id, string UserId);
+        void DeleteNotification(int Id);
     }
 }
