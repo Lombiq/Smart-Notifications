@@ -108,9 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Controllers\StickyController.cs" />
+    <Compile Include="Controllers\StickyNotificationController.cs" />
     <Compile Include="Migrations\Migration.cs" />
-    <Compile Include="Models\StickyRecord.cs" />
+    <Compile Include="Models\StickyNotificationRecord.cs" />
     <Compile Include="NotifierExtensions.cs" />
     <Compile Include="Drivers\SmartNotificationsPartDriver.cs" />
     <Compile Include="Handlers\SmartNotificationsPartHandler.cs" />

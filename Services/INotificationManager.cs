@@ -13,7 +13,7 @@ namespace Lombiq.SmartNotifications.Services
         /// This method gets the notifications for the actual user.
         /// </summary>
         /// <returns>Returns the notification messages for the actual user.</returns>
-        IEnumerable<StickyRecord> GetNotifications();
+        IEnumerable<StickyNotificationRecord> GetNotifications();
 
         /// <summary>
         /// This method saves the notifications to db.

@@ -11,12 +11,12 @@ namespace Lombiq.SmartNotifications.Migrations
     {
         public int Create()
         {
-            SchemaBuilder.CreateTable(typeof(StickyRecord).Name, table => table
+            SchemaBuilder.CreateTable(typeof(StickyNotificationRecord).Name, table => table
                 .Column<int>("Id", column => column.PrimaryKey().Identity())
                 .Column<string>("SessionId")
                 .Column<string>("NotificationType")
                 .Column<string>("NotificationMessage")
-                ).AlterTable(typeof(StickyRecord).Name, table => table
+                ).AlterTable(typeof(StickyNotificationRecord).Name, table => table
                 .CreateIndex("SmartNotification", new string[] {"SessionId"})
                 );
 

@@ -10,25 +10,25 @@ namespace Lombiq.SmartNotifications.Services
 {
     public class NotificationManager : INotificationManager
     {
-        private readonly IRepository<StickyRecord> _notificationRepository;
+        private readonly IRepository<StickyNotificationRecord> _notificationRepository;
         private readonly IHttpContextAccessor _hca;
 
         public NotificationManager(
-            IRepository<StickyRecord> notificationRepository,
+            IRepository<StickyNotificationRecord> notificationRepository,
             IHttpContextAccessor hca)
         {
             _notificationRepository = notificationRepository;
             _hca = hca;
         }
 
-        public IEnumerable<StickyRecord> GetNotifications()
+        public IEnumerable<StickyNotificationRecord> GetNotifications()
         {
             return _notificationRepository.Table.Where(record => record.SessionId == _hca.Current().Session.SessionID).OrderBy(record => record.Id);
         }
 
         public void SaveNotification(string NotificationMessage, string NotificationType)
         {   
-            var notification = new StickyRecord();
+            var notification = new StickyNotificationRecord();
             _notificationRepository.Create(notification);
             notification.SessionId = _hca.Current().Session.SessionID;
             notification.NotificationMessage = NotificationMessage;

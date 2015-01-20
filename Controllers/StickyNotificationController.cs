@@ -9,17 +9,13 @@ using System.Web.Http;
 
 namespace Lombiq.SmartNotifications.Controllers
 {
-    public class StickyController : ApiController
+    public class StickyNotificationController : ApiController
     {
-        private readonly IWorkContextAccessor _wca;
         private readonly INotificationManager _notificationManager;
 
-        public StickyController(
-            INotificationManager notificationManager,
-            IWorkContextAccessor wca)
+        public StickyNotificationController(INotificationManager notificationManager)
         {
             _notificationManager = notificationManager;
-            _wca = wca;
         }
         
         public HttpResponseMessage Delete(int id)

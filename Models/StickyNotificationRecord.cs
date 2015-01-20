@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Lombiq.SmartNotifications.Models
 {
-    public class StickyRecord
+    public class StickyNotificationRecord
     {
         public virtual int Id { get; set; }//unique identifier of the notification message
         public virtual string SessionId { get; set; }//we must save the user id, because the notification messages are connected to user
