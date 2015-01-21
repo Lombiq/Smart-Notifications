@@ -1,6 +1,7 @@
 ﻿using Lombiq.SmartNotifications.Models;
 using Orchard.Data;
 using Orchard.Mvc;
+using Orchard.UI.Notify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,35 +12,31 @@ namespace Lombiq.SmartNotifications.Services
     public class NotificationManager : INotificationManager
     {
         private readonly IRepository<StickyNotificationRecord> _notificationRepository;
-        private readonly IHttpContextAccessor _hca;
 
-        public NotificationManager(
-            IRepository<StickyNotificationRecord> notificationRepository,
-            IHttpContextAccessor hca)
+        public NotificationManager(IRepository<StickyNotificationRecord> notificationRepository)
         {
             _notificationRepository = notificationRepository;
-            _hca = hca;
         }
 
-        public IEnumerable<StickyNotificationRecord> GetNotifications()
+        public IEnumerable<IStickyNotificationRecord> GetNotifications(string SessionId)
         {
-            return _notificationRepository.Table.Where(record => record.SessionId == _hca.Current().Session.SessionID).OrderBy(record => record.Id);
+            return _notificationRepository.Table.Where(record => record.SessionId == SessionId).OrderBy(record => record.Id);
         }
 
-        public void SaveNotification(string NotificationMessage, string NotificationType)
+        public void SaveNotification(string SessionId, string NotificationMessage, NotifyType NotificationType)
         {   
             var notification = new StickyNotificationRecord();
             _notificationRepository.Create(notification);
-            notification.SessionId = _hca.Current().Session.SessionID;
+            notification.SessionId = SessionId;
             notification.NotificationMessage = NotificationMessage;
             notification.NotificationType = NotificationType;
         }
 
-        public void DeleteNotification(int id)
+        public void DeleteNotification(string SessionId, int Id)
         {
-            var notification = _notificationRepository.Get(id);
+            var notification = _notificationRepository.Get(Id);
             //If the second condition wouldn't be present anybody would be able to delete notifications by knowing someone else's session ID.
-            if (notification != null && notification.SessionId == _hca.Current().Session.SessionID)
+            if (notification != null && notification.SessionId == SessionId)
             {
                 _notificationRepository.Delete(notification);
             }

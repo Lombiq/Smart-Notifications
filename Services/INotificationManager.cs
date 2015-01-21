@@ -1,5 +1,6 @@
 ﻿using Lombiq.SmartNotifications.Models;
 using Orchard;
+using Orchard.UI.Notify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +13,23 @@ namespace Lombiq.SmartNotifications.Services
         /// <summary>
         /// This method gets the notifications for the actual user.
         /// </summary>
+        /// <param name="SessionId">The session ID actual user.</param>
         /// <returns>Returns the notification messages for the actual user.</returns>
-        IEnumerable<StickyNotificationRecord> GetNotifications();
+        IEnumerable<IStickyNotificationRecord> GetNotifications(string SessionId);
 
         /// <summary>
-        /// This method saves the notifications to db.
+        /// This method saves the notifications to database.
         /// </summary>
-        /// <param name="NotificationMessage"></param>
-        /// <param name="NotificationType"></param>
-        void SaveNotification(string NotificationMessage, string NotificationType);
+        /// <param name="SessionId">The session ID of the actual user.</param>
+        /// <param name="NotificationMessage">The notification message.</param>
+        /// <param name="NotificationType">The notification type.</param>
+        void SaveNotification(string SessionId, string NotificationMessage, NotifyType NotificationType);
 
         /// <summary>
         /// This method removes the selcted record from the table.
         /// </summary>
-        /// <param name="Id"></param>
-        void DeleteNotification(int Id);
+        /// <param name="SessionId">The session ID of the user.</param>
+        /// <param name="Id">The unique id of the notification.</param>
+        void DeleteNotification(string SessionId, int Id);
     }
 }

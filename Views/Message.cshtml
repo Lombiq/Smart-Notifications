@@ -20,11 +20,11 @@
 }
 @if (MakeAllNotificationsSticky)
 { 
-    <div message-id="@Id" class="message message-@Model.Type">@HtmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div data-id="@Id" class="message message-@Model.Type">@HtmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 else
 {
-    <div message-id="@Id" class="message message-@Model.Type">@HtmlMessage @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div data-id="@Id" class="message message-@Model.Type">@HtmlMessage @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
@@ -33,11 +33,11 @@ else
         <script type="text/javascript">
         (function ($) {
             $(function () {
-                var uri = "@baseUrl" + '/api/Lombiq.SmartNotifications/StickyNotification';
-                $(".message > span").click(function () {
-                    if ($(this).parent().attr("message-id") != null) {
+                var uri = "@baseUrl"+'/api/StickyNotification';
+                $(".message > span#close-message").click(function () {
+                    if ($(this).parent().attr("data-id") != null) {
                         $.ajax({
-                            url: uri + '/' + $(this).parent().attr("message-id"),
+                            url: uri + '/' + $(this).parent().attr("data-id"),
                             type: 'DELETE',
                             success: function (result) {
                                 console.log(result);
@@ -59,7 +59,7 @@ else
         <script type="text/javascript">
             (function ($) {
                 $(function () {
-                    $(".message > span").click(function () {
+                    $(".message > span#close-message").click(function () {
                         $(this).parent().hide();
                     });
                     @if (settings.MakeAllNotificationsFading) {
