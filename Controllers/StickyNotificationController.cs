@@ -12,7 +12,7 @@ using Orchard.Mvc.Routes;
 
 namespace Lombiq.SmartNotifications.Controllers
 {
-    public class StickyNotificationController : ApiController, IHttpRouteProvider
+    public class StickyNotificationController : ApiController
     {
         private readonly INotificationManager _notificationManager;
         private readonly IHttpContextAccessor _hca;
@@ -23,32 +23,12 @@ namespace Lombiq.SmartNotifications.Controllers
             _notificationManager = notificationManager;
             _hca = hca;
         }
-        
+
 
         public HttpResponseMessage Delete(int id)
         {
             _notificationManager.DeleteNotification(_hca.Current().Session.SessionID, id);
             return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-        public IEnumerable<RouteDescriptor> GetRoutes()
-        {
-            return new[] { new HttpRouteDescriptor {
-                Priority = 5,
-                RouteTemplate = "api/{controller}/{id}",
-                Defaults = new {
-                    area = "Lombiq.SmartNotifications",
-                    id = RouteParameter.Optional
-                }
-            }};
-        }
-
-        public void GetRoutes(ICollection<RouteDescriptor> routes)
-        {
-            foreach (var routeDescriptor in GetRoutes())
-            {
-                routes.Add(routeDescriptor);
-            }
         }
     }
 }

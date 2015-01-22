@@ -5,14 +5,15 @@
 @using Lombiq.SmartNotifications.Services;
 @using Lombiq.SmartNotifications;
 @{
-    Script.Require("jQuery").AtHead();
+    Script.Require("jQuery").AtFoot();
     Style.Include("lombiq-smartnotifications-style.css");
     var siteService = WorkContext.Resolve<ISiteService>();
     var notificationService = WorkContext.Resolve<INotificationManager>();
     var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
+    var Id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|') + 1);
+    var urlHelper = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification", id = Id });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
-    var Id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|')+1);
     var MakeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
     var MakeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
     var MakeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
@@ -28,44 +29,47 @@ else
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
-    if (MakeAllNotificationsSticky)
-    {
-        <script type="text/javascript">
-        (function ($) {
-            $(function () {
-                var uri = "@baseUrl"+'/api/StickyNotification';
-                $(".message > span#close-message").click(function () {
-                    if ($(this).parent().attr("data-id") != null) {
-                        $.ajax({
-                            url: uri + '/' + $(this).parent().attr("data-id"),
-                            type: 'DELETE',
-                            success: function (result) {
-                                console.log(result);
-                            }
-                        });
-                    }
-                    $(this).parent().hide();
-                });
-                @if(settings.MakeAllNotificationsFading) {
-                    <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
-                }
-            });
-        }
-        )(jQuery);
-        </script> 
-    }
-    else
-    {
-        <script type="text/javascript">
-            (function ($) {
-                $(function () {
-                    $(".message > span#close-message").click(function () {
-                        $(this).parent().hide();
+    using (Script.Foot())
+    { 
+        if (MakeAllNotificationsSticky)
+        {
+            <script type="text/javascript">
+    (function ($) {
+        $(function () {
+            var uri = "@urlHelper";
+            $(".message > span#close-message").click(function () {
+                if ($(this).parent().attr("data-id") != null) {
+                    $.ajax({
+                        url: uri,
+                        type: 'DELETE',
+                        success: function (result) {
+                            console.log(result);
+                        }
                     });
-                    @if (settings.MakeAllNotificationsFading) {
+                }
+                $(this).parent().hide();
+            });
+            @if(settings.MakeAllNotificationsFading) {
                         <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
-                    }});
-            })(jQuery);
-        </script> 
+                    }
+        });
+    }
+    )(jQuery);
+            </script> 
+        }
+        else
+        {
+            <script type="text/javascript">
+                (function ($) {
+                    $(function () {
+                        $(".message > span#close-message").click(function () {
+                            $(this).parent().hide();
+                        });
+                        @if (settings.MakeAllNotificationsFading) {
+                            <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+                        }});
+                })(jQuery);
+            </script> 
+        }
     }
 }
