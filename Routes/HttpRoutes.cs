@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace Lombiq.SmartNotifications
+namespace Lombiq.SmartNotifications.Routes
 {
     public class HttpRoutes : IHttpRouteProvider
     {
