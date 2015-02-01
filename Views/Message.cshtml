@@ -11,51 +11,51 @@
     var notificationService = WorkContext.Resolve<INotificationManager>();
     var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    var Id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|') + 1);
-    var urlHelper = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification", id = Id });
+    var notification_id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|') + 1);
+    var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification", id = notification_id });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
-    var MakeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
-    var MakeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
-    var MakeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
-    var HtmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
+    var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
+    var makeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
+    var makeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
+    var htmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
-@if (MakeAllNotificationsSticky && message.Contains("|"))
-{ 
-    <div data-id="@Id" class="message message-@Model.Type">@HtmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+@if (makeAllNotificationsSticky && message.Contains("|"))
+{
+    <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 else
 {
-    <div data-id="@Id" class="message message-@Model.Type">@HtmlMessage @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable){<span id='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
     using (Script.Foot())
-    { 
-        if (MakeAllNotificationsSticky)
+    {
+        if (makeAllNotificationsSticky)
         {
             <script type="text/javascript">
-    (function ($) {
-        $(function () {
-            var uri = "@urlHelper";
-            $(".message > span#close-message").click(function () {
-                if ($(this).parent().attr("data-id") != null) {
-                    $.ajax({
-                        url: uri,
-                        type: 'DELETE',
-                        success: function (result) {
-                            console.log(result);
-                        }
-                    });
-                }
-                $(this).parent().hide();
-            });
-            @if(settings.MakeAllNotificationsFading) {
+                (function ($) {
+                    $(function () {
+                        var uri = "@url";
+                        $(".message > span#close-message").click(function () {
+                            if ($(this).parent().attr("data-id") != null) {
+                                $.ajax({
+                                    url: uri,
+                                    type: 'DELETE',
+                                    success: function (result) {
+                                        console.log(result);
+                                    }
+                                });
+                            }
+                            $(this).parent().hide();
+                        });
+                        @if(settings.MakeAllNotificationsFading) {
                         <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
                     }
-        });
-    }
-    )(jQuery);
-            </script> 
+                    });
+                }
+                )(jQuery);
+            </script>
         }
         else
         {
@@ -67,9 +67,10 @@ else
                         });
                         @if (settings.MakeAllNotificationsFading) {
                             <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
-                        }});
+                        }
+                    });
                 })(jQuery);
-            </script> 
+            </script>
         }
     }
 }
