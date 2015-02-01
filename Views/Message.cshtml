@@ -19,13 +19,16 @@
     var makeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
     var htmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
-@if (makeAllNotificationsSticky && message.Contains("|"))
+@if (makeAllNotificationsSticky)
 {
-    <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    if (message.Contains("|"))
+    {
+        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    }
 }
 else
 {
-    <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable){<span id='close-message'>&#10006;</span> }</div>
+    <div class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
