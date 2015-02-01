@@ -10,7 +10,6 @@ namespace Lombiq.SmartNotifications.Models
 {
     public class StickyNotificationRecord : IStickyNotification
     {
-        
         public virtual int Id { get; set; }
         public virtual string SessionId { get; set; }
         public virtual NotifyType NotificationType { get; set; }
