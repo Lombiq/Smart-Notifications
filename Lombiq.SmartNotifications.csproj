@@ -111,7 +111,7 @@
     <Compile Include="Controllers\StickyNotificationController.cs" />
     <Compile Include="Routes\HttpRoutes.cs" />
     <Compile Include="Migrations\Migration.cs" />
-    <Compile Include="Models\IStickyNotificationRecord.cs" />
+    <Compile Include="Models\IStickyNotification.cs" />
     <Compile Include="Models\StickyNotificationRecord.cs" />
     <Compile Include="NotifierExtensions.cs" />
     <Compile Include="Drivers\SmartNotificationsPartDriver.cs" />

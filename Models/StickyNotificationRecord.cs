@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Lombiq.SmartNotifications.Models
 {
-    public class StickyNotificationRecord : IStickyNotificationRecord
+    public class StickyNotificationRecord : IStickyNotification
     {
         
         public virtual int Id { get; set; }

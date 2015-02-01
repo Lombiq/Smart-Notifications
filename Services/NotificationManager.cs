@@ -18,7 +18,7 @@ namespace Lombiq.SmartNotifications.Services
             _notificationRepository = notificationRepository;
         }
 
-        public IEnumerable<IStickyNotificationRecord> GetNotifications(string SessionId)
+        public IEnumerable<IStickyNotification> GetNotifications(string SessionId)
         {
             return _notificationRepository.Table.Where(record => record.SessionId == SessionId).OrderBy(record => record.Id);
         }
@@ -35,7 +35,7 @@ namespace Lombiq.SmartNotifications.Services
         public void DeleteNotification(string SessionId, int Id)
         {
             var notification = _notificationRepository.Get(Id);
-            //If the second condition wouldn't be present anybody would be able to delete notifications by knowing someone else's session ID.
+            // If the second condition wouldn't be present anybody would be able to delete notifications by knowing someone else's session ID.
             if (notification != null && notification.SessionId == SessionId)
             {
                 _notificationRepository.Delete(notification);

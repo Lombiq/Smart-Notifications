@@ -12,15 +12,20 @@ namespace Lombiq.SmartNotifications.Routes
     {
         public IEnumerable<RouteDescriptor> GetRoutes()
         {
-            return new[] { new HttpRouteDescriptor {
-                Name="StickyControllerApi",
-                Priority = 5,
-                RouteTemplate = "api/{controller}/{id}",
-                Defaults = new {
-                    area = "Lombiq.SmartNotifications",
-                    id = RouteParameter.Optional
-                }
-            }};
+            return new[] 
+            { 
+                new HttpRouteDescriptor 
+                {
+                    Name="StickyControllerApi",
+                    Priority = 5,
+                    RouteTemplate = "api/{controller}/{id}",
+                    Defaults = new 
+                        {
+                            area = "Lombiq.SmartNotifications",
+                            id = RouteParameter.Optional
+                        }
+                    }
+            };
         }
 
         public void GetRoutes(ICollection<RouteDescriptor> routes)

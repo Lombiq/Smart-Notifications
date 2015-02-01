@@ -15,7 +15,7 @@ namespace Lombiq.SmartNotifications.Services
         /// </summary>
         /// <param name="SessionId">The session ID actual user.</param>
         /// <returns>Returns the notification messages for the actual user.</returns>
-        IEnumerable<IStickyNotificationRecord> GetNotifications(string SessionId);
+        IEnumerable<IStickyNotification> GetNotifications(string SessionId);
 
         /// <summary>
         /// This method saves the notifications to database.
