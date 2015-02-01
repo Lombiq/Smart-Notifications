@@ -12,7 +12,7 @@
     var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
     var notification_id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|') + 1);
-    var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification", id = notification_id });
+    var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
     var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
     var makeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
@@ -36,11 +36,11 @@ else
             <script type="text/javascript">
                 (function ($) {
                     $(function () {
-                        var uri = "@url";
+                        var uri = "@url"+"/";
                         $(".message > span#close-message").click(function () {
                             if ($(this).parent().attr("data-id") != null) {
                                 $.ajax({
-                                    url: uri,
+                                    url: uri + $(this).parent().attr("data-id"),
                                     type: 'DELETE',
                                     success: function (result) {
                                         console.log(result);
