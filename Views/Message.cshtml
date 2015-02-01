@@ -19,7 +19,7 @@
     var MakeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
     var HtmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
-@if (MakeAllNotificationsSticky)
+@if (MakeAllNotificationsSticky && message.Contains("|"))
 { 
     <div data-id="@Id" class="message message-@Model.Type">@HtmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (MakeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
 }
