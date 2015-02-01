@@ -18,7 +18,7 @@ namespace Lombiq.SmartNotifications.Controllers
         private readonly IHttpContextAccessor _hca;
 
 
-        public StickyNotificationController(INotificationManager notificationManager,IHttpContextAccessor hca)
+        public StickyNotificationController(INotificationManager notificationManager, IHttpContextAccessor hca)
         {
             _notificationManager = notificationManager;
             _hca = hca;
