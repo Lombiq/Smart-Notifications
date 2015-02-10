@@ -13,7 +13,6 @@ namespace Lombiq.SmartNotifications.Drivers
         protected override DriverResult Editor(SmartNotificationsPart part, dynamic shapeHelper)
         {
             return Editor(part, null, shapeHelper);
-
         }
 
         protected override DriverResult Editor(SmartNotificationsPart part, IUpdateModel updater, dynamic shapeHelper)
@@ -21,6 +20,12 @@ namespace Lombiq.SmartNotifications.Drivers
             return ContentShape("Parts_SmartNotifications_Settings_Edit",
                 () =>
                 {
+                    // The Sticky notification without the closable is unuseful, for that if we check the Sticky we also check the Closable
+                    if (part != null && part.MakeAllNotificationsSticky)
+                    {
+                        part.MakeAllNotificationsClosable = true;
+                    }
+
                     if (updater != null)
                     {
                         updater.TryUpdateModel(part, Prefix, null, null);
