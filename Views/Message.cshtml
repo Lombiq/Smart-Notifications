@@ -11,7 +11,7 @@
     var siteService = WorkContext.Resolve<ISiteService>();
     var notificationService = WorkContext.Resolve<INotificationManager>();
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    var notification_id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf(Constants.Sticky) + Constants.Sticky.Length);
+    var notificationId = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf(Constants.Sticky) + Constants.Sticky.Length);
     var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
     var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
@@ -23,7 +23,7 @@
 {
     if (message.Contains(Constants.Sticky))
     {
-        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span class='close-message'>&#10006;</span></div>
+        <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span class='close-message'>&#10006;</span></div>
     }
 }
 else
