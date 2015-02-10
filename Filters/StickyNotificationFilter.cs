@@ -58,7 +58,7 @@ namespace Lombiq.SmartNotifications.Filters
             // This foreach reads all notifications from the database.
             foreach (var notification in _notificationManager.GetNotifications(_hca.Current().Session.SessionID))
             {
-                if(!notification.NotificationMessage.Contains('|') && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
+                if(!notification.NotificationMessage.Contains(Constants.Sticky) && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
                     _notifier.Add(notification.NotificationType, new LocalizedString(string.Format("{0}{1}{2}", notification.NotificationMessage, Constants.Sticky, notification.Id)));
             }
         }
