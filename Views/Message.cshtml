@@ -7,11 +7,11 @@
 @{
     Script.Require("jQuery").AtFoot();
     Style.Include("lombiq-smartnotifications-style.css");
+    
     var siteService = WorkContext.Resolve<ISiteService>();
     var notificationService = WorkContext.Resolve<INotificationManager>();
-    var baseUrl = WorkContext.CurrentSite.BaseUrl;
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    var notification_id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf('|') + 1);
+    var notification_id = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf(Constants.Sticky) + Constants.Sticky.Length);
     var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
     var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
@@ -21,9 +21,9 @@
 }
 @if (makeAllNotificationsSticky)
 {
-    if (message.Contains("|"))
+    if (message.Contains(Constants.Sticky))
     {
-        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf('|')) @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span id='close-message'>&#10006;</span></div>
     }
 }
 else
