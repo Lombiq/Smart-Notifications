@@ -23,12 +23,12 @@
 {
     if (message.Contains(Constants.Sticky))
     {
-        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span id='close-message'>&#10006;</span></div>
+        <div data-id="@notification_id" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span class='close-message'>&#10006;</span></div>
     }
 }
 else
 {
-    <div class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable) {<span id='close-message'>&#10006;</span> }</div>
+    <div class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable) {<span class='close-message'>&#10006;</span> }</div>
 }
 @if (this.WasNotDisplayed("messageJS"))
 {
@@ -40,7 +40,7 @@ else
                 (function ($) {
                     $(function () {
                         var uri = "@url"+"/";
-                        $(".message > span#close-message").click(function () {
+                        $(".message > span.close-message").click(function () {
                             if ($(this).parent().attr("data-id") != null) {
                                 $.ajax({
                                     url: uri + $(this).parent().attr("data-id"),
@@ -65,7 +65,7 @@ else
             <script type="text/javascript">
                 (function ($) {
                     $(function () {
-                        $(".message > span#close-message").click(function () {
+                        $(".message > span.close-message").click(function () {
                             $(this).parent().hide();
                         });
                         @if (settings.MakeAllNotificationsFading) {
