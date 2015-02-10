@@ -56,10 +56,10 @@ namespace Lombiq.SmartNotifications.Filters
         public void OnActionExecuting(ActionExecutingContext filterContext) 
         {
             // This foreach reads all notifications from the database.
-            foreach (var row in _notificationManager.GetNotifications(_hca.Current().Session.SessionID))
+            foreach (var notification in _notificationManager.GetNotifications(_hca.Current().Session.SessionID))
             {
-                if(!row.NotificationMessage.Contains('|') && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
-                    _notifier.Add(row.NotificationType, new LocalizedString(string.Format("{0}{1}{2}", row.NotificationMessage, Constants.Sticky, row.Id)));
+                if(!notification.NotificationMessage.Contains('|') && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
+                    _notifier.Add(notification.NotificationType, new LocalizedString(string.Format("{0}{1}{2}", notification.NotificationMessage, Constants.Sticky, notification.Id)));
             }
         }
     }
