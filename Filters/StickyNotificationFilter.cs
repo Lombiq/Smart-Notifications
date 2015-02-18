@@ -59,7 +59,7 @@ namespace Lombiq.SmartNotifications.Filters
             foreach (var notification in _notificationManager.GetNotifications(_hca.Current().Session.SessionID))
             {
                 if(!notification.NotificationMessage.Contains(Constants.Sticky) && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
-                    _notifier.Add(notification.NotificationType, new LocalizedString(string.Format("{0}{1}{2}", notification.NotificationMessage, Constants.Sticky, notification.Id)));
+                    _notifier.Add(notification.NotificationType, new LocalizedString(string.Format("{0}{1}@{2}", Constants.Sticky, notification.Id, notification.NotificationMessage)));
             }
         }
     }

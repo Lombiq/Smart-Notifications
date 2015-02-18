@@ -20,14 +20,13 @@ namespace Lombiq.SmartNotifications.Drivers
             return ContentShape("Parts_SmartNotifications_Settings_Edit",
                 () =>
                 {
-                    // The Sticky notification without the closable is unuseful, for that if we check the Sticky we also check the Closable
-                    if (part != null && part.MakeAllNotificationsSticky)
-                    {
-                        part.MakeAllNotificationsClosable = true;
-                    }
-
                     if (updater != null)
                     {
+                        // The Sticky notification without the closable is unuseful, for that if we check the Sticky we also check the Closable
+                        if (part != null && part.MakeAllNotificationsSticky)
+                        {
+                            part.MakeAllNotificationsClosable = true;
+                        }
                         updater.TryUpdateModel(part, Prefix, null, null);
                     }
 

@@ -11,19 +11,21 @@
     var siteService = WorkContext.Resolve<ISiteService>();
     var notificationService = WorkContext.Resolve<INotificationManager>();
     var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    var notificationId = Model.Message.ToString().Substring(Model.Message.ToString().IndexOf(Constants.Sticky) + Constants.Sticky.Length);
     var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
     var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
-    var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.Contains(Constants.Closable);
-    var makeAllNotificationsFading = settings.MakeAllNotificationsFading || message.Contains(Constants.Fading);
-    var makeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.Contains(Constants.Sticky);
+    var notificationId = "";
+    if(message.StartsWith(Constants.Sticky))
+        notificationId = Model.Message.ToString().Substring(Constants.Sticky.Length, (Model.Message.ToString().IndexOf("@") - Constants.Sticky.Length));
+    var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.StartsWith(Constants.Closable);
+    var makeAllNotificationsFading = settings.MakeAllNotificationsFading || message.StartsWith(Constants.Fading);
+    var makeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.StartsWith(Constants.Sticky);
     var htmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
 @if (makeAllNotificationsSticky)
 {
     if (message.Contains(Constants.Sticky))
     {
-        <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(0, Model.Message.ToString().IndexOf(Constants.Sticky)) <span class='close-message'>&#10006;</span></div>
+        <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(Model.Message.ToString().IndexOf("@")+1) <span class='close-message'>&#10006;</span></div>
     }
 }
 else
