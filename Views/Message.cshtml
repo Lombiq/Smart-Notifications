@@ -23,7 +23,7 @@
 }
 @if (makeAllNotificationsSticky)
 {
-    if (message.Contains(Constants.Sticky))
+    if (message.StartsWith(Constants.Sticky))
     {
         <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(Model.Message.ToString().IndexOf("@")+1) <span class='close-message'>&#10006;</span></div>
     }
