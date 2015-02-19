@@ -48,7 +48,7 @@ namespace Lombiq.SmartNotifications.Filters
             // This foreach will save the currently displayed notifications to the database. 
             foreach (var entry in _notifier.List())
             {
-                if (!entry.Message.ToString().Contains(Constants.Sticky))
+                if (!entry.Message.ToString().StartsWith(Constants.Sticky))
                     _notificationManager.SaveNotification(_hca.Current().Session.SessionID, entry.Message.ToString(), entry.Type);
             }
         }
@@ -58,7 +58,7 @@ namespace Lombiq.SmartNotifications.Filters
             // This foreach reads all notifications from the database.
             foreach (var notification in _notificationManager.GetNotifications(_hca.Current().Session.SessionID))
             {
-                if(!notification.NotificationMessage.Contains(Constants.Sticky) && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
+                if(!notification.NotificationMessage.StartsWith(Constants.Sticky) && _siteService.GetSiteSettings().As<SmartNotificationsPart>().MakeAllNotificationsSticky)
                     _notifier.Add(notification.NotificationType, new LocalizedString(string.Format("{0}{1}@{2}", Constants.Sticky, notification.Id, notification.NotificationMessage)));
             }
         }
