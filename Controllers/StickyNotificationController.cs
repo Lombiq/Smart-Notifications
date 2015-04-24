@@ -15,19 +15,27 @@ namespace Lombiq.SmartNotifications.Controllers
     public class StickyNotificationController : ApiController
     {
         private readonly INotificationManager _notificationManager;
-        private readonly IHttpContextAccessor _hca;
+        private readonly IWorkContextAccessor _wca;
 
 
-        public StickyNotificationController(INotificationManager notificationManager, IHttpContextAccessor hca)
+        public StickyNotificationController(INotificationManager notificationManager, IWorkContextAccessor wca)
         {
             _notificationManager = notificationManager;
-            _hca = hca;
+            _wca = wca;
         }
 
 
         public HttpResponseMessage Delete(int id)
         {
-            _notificationManager.DeleteNotification(_hca.Current().Session.SessionID, id);
+            var workContext = _wca.GetContext();
+
+            _notificationManager.DeleteNotification(workContext.HttpContext.Session.SessionID, id);
+
+            if (workContext.CurrentUser != null)
+            {
+                _notificationManager.DeleteNotificationOfUser(workContext.CurrentUser, id);
+            }
+
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

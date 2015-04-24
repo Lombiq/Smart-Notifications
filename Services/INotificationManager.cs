@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Orchard.Security;
 
 namespace Lombiq.SmartNotifications.Services
 {
@@ -26,10 +27,39 @@ namespace Lombiq.SmartNotifications.Services
         void SaveNotification(string sessionId, string notificationMessage, NotifyType notificationType);
 
         /// <summary>
-        /// This method removes the selcted record from the table.
+        /// This method removes the selected record from the table.
         /// </summary>
         /// <param name="sessionId">The session ID of the user.</param>
         /// <param name="id">The unique id of the notification.</param>
         void DeleteNotification(string sessionId, int id);
+    }
+
+
+    public static class NotificationManagerExtensions
+    {
+        private const string SessionIdPrefix = "Users.";
+
+
+        public static IEnumerable<IStickyNotification> GetNotificationsOfUser(this INotificationManager notificationManager, IUser user)
+        {
+            if (user == null) return Enumerable.Empty<IStickyNotification>();
+            return notificationManager.GetNotifications(MakeId(user));
+        }
+
+        public static void SaveNotificationForUser(this INotificationManager notificationManager, IUser user, string notificationMessage, NotifyType notificationType)
+        {
+            notificationManager.SaveNotification(MakeId(user), notificationMessage, notificationType);
+        }
+
+        public static void DeleteNotificationOfUser(this INotificationManager notificationManager, IUser user, int id)
+        {
+            notificationManager.DeleteNotification(MakeId(user), id);
+        }
+
+
+        private static string MakeId(IUser user)
+        {
+            return SessionIdPrefix + user.Id;
+        }
     }
 }

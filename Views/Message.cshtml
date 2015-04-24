@@ -4,78 +4,96 @@
 @using Piedone.HelpfulLibraries.Utilities;
 @using Lombiq.SmartNotifications.Services;
 @using Lombiq.SmartNotifications;
+
 @{
     Script.Require("jQuery").AtFoot();
     Style.Include("lombiq-smartnotifications-style.css");
 
-    var siteService = WorkContext.Resolve<ISiteService>();
-    var notificationService = WorkContext.Resolve<INotificationManager>();
-    var settings = siteService.GetSiteSettings().As<SmartNotificationsPart>();
-    var url = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
-    var message = @Html.Raw(Html.Encode(Model.Message)).ToString();
+    var settings = WorkContext.Resolve<ISiteService>().GetSiteSettings().As<SmartNotificationsPart>();
+    var stickyNotificationsApiUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
+    var message = (Orchard.Localization.LocalizedString)Model.Message;
+    var messageText = message.Text;
+
     var notificationId = "";
-    if(message.StartsWith(Constants.Sticky))
-        notificationId = Model.Message.ToString().Substring(Constants.Sticky.Length, (Model.Message.ToString().IndexOf("@") - Constants.Sticky.Length));
-    var makeAllNotificationsClosable = settings.MakeAllNotificationsClosable || message.StartsWith(Constants.Closable);
-    var makeAllNotificationsFading = settings.MakeAllNotificationsFading || message.StartsWith(Constants.Fading);
-    var makeAllNotificationsSticky = settings.MakeAllNotificationsSticky || message.StartsWith(Constants.Sticky);
-    var htmlMessage = Html.Raw(Html.Encode(Model.Message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
-}
-@if (makeAllNotificationsSticky)
-{
-    if (message.StartsWith(Constants.Sticky))
+    if (messageText.StartsWith(Constants.Sticky))
     {
-        <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(Model.Message.ToString().IndexOf("@") + 1) <span class='close-message'>&#10006;</span></div>
+        notificationId = messageText.Substring(Constants.Sticky.Length, (messageText.IndexOf("@") - Constants.Sticky.Length));
     }
+
+    var isClosable = settings.MakeAllNotificationsClosable || messageText.StartsWith(Constants.Closable);
+    var isFading = settings.MakeAllNotificationsFading || messageText.StartsWith(Constants.Fading);
+    var isSticky = messageText.StartsWith(Constants.Sticky);
+    var htmlMessage = Html.Raw(Html.Encode(message).Replace(Environment.NewLine, "<br />").Replace(Constants.Closable, "").Replace(Constants.Fading, ""));
 }
-else
+
+
+@if (isSticky)
 {
-    <div class="message message-@Model.Type">@htmlMessage @if (makeAllNotificationsClosable) {<span class='close-message'>&#10006;</span> }</div>
+    <div data-id="@notificationId" class="message message-@Model.Type">@htmlMessage.ToString().Substring(messageText.IndexOf("@") + 1) <span class='close-message'>&#10006;</span></div>
 }
-@if (this.WasNotDisplayed("messageJS"))
+else if (!settings.MakeAllNotificationsSticky)
+{
+    <div class="message message-@Model.Type">
+        @htmlMessage
+        @if (isClosable)
+        {
+            <span class='close-message'>&#10006;</span>
+        }
+    </div>
+}
+
+@if (isSticky && this.WasNotDisplayed("Lombiq.SmartNotifications.Sticky"))
 {
     using (Script.Foot())
     {
-        if (makeAllNotificationsSticky)
-        {
-            <script type="text/javascript">
-                (function ($) {
-                    $(function () {
-                        var uri = "@url" + "/";
-                        $(".message > span.close-message").click(function () {
-                            if ($(this).parent().attr("data-id") != null) {
-                                $.ajax({
-                                    url: uri + $(this).parent().attr("data-id"),
-                                    type: 'DELETE',
-                                    success: function (result) {
-                                        console.log(result);
-                                    }
-                                });
-                            }
-                            $(this).parent().hide();
-                        });
-                        @if(settings.MakeAllNotificationsFading) {
-                        <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
-                    }
-                    });
-                }
-                )(jQuery);
-            </script>
-        }
-        else
-        {
-            <script type="text/javascript">
-                (function ($) {
-                    $(function () {
-                        $(".message > span.close-message").click(function () {
-                            $(this).parent().hide();
-                        });
-                        @if (settings.MakeAllNotificationsFading) {
-                            <text>setTimeout(function () { $('.message').fadeOut(2000) }, 5000);</text>
+        <script type="text/javascript">
+            (function ($) {
+                $(function () {
+                    var uri = "@stickyNotificationsApiUrl" + "/";
+                    $(".message > span.close-message").click(function () {
+                        if ($(this).parent().attr("data-id") != null) {
+                            $.ajax({
+                                url: uri + $(this).parent().attr("data-id"),
+                                type: 'DELETE',
+                                success: function (result) {
+                                    console.log(result);
+                                }
+                            });
                         }
+                        $(this).parent().hide();
                     });
-                })(jQuery);
-            </script>
-        }
+                });
+            })(jQuery);
+        </script>
+    }
+}
+
+@if (isClosable && this.WasNotDisplayed("Lombiq.SmartNotifications.Closable"))
+{
+    using (Script.Foot())
+    {
+        <script type="text/javascript">
+            (function ($) {
+                $(function () {
+                    $(".message > span.close-message").click(function () {
+                        $(this).parent().hide();
+                    });
+                });
+            })(jQuery);
+        </script>
+    }
+}
+
+@if (isFading && this.WasNotDisplayed("Lombiq.SmartNotifications.Fading"))
+{
+    using (Script.Foot())
+    {
+        <script type="text/javascript">
+            (function ($) {
+                $(function () {
+                    setTimeout(function () { $('.message').fadeOut(2000) }, 5000);
+                });
+            })(jQuery);
+        </script>
     }
 }
