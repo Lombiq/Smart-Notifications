@@ -91,7 +91,7 @@ else if (!settings.MakeAllNotificationsSticky)
         <script type="text/javascript">
             (function ($) {
                 $(function () {
-                    setTimeout(function () { $('.message').fadeOut(2000) }, 5000);
+                    setTimeout(function () { $('.message').fadeOut(2000) }, @settings.FadingStartTimeMilliseconds);
                 });
             })(jQuery);
         </script>

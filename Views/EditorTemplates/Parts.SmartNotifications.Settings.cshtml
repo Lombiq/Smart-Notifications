@@ -11,6 +11,11 @@
             @Html.ValidationMessageFor(m => m.MakeAllNotificationsFading)<span class="hint">@T("If checked, all the notifications will be fading: notifications will fade out after some time.")</span>
         </li>
         <li>
+            @Html.LabelFor(m => m.FadingStartTimeMilliseconds, @T("Fading start time (milliseconds)"))
+            @Html.TextBoxFor(m => m.FadingStartTimeMilliseconds, new { @class = "text medium" })
+            <span class="hint">@T("The time in milliseconds that fading notifications will take to until starting to fade out.")</span>
+        </li>
+        <li>
             @Html.EditorFor(m => m.MakeAllNotificationsSticky)<label for="@Html.FieldIdFor(m => m.MakeAllNotificationsSticky)" class="forcheckbox">@T("All sticky")</label>
             @Html.ValidationMessageFor(m => m.MakeAllNotificationsSticky)<span class="hint">@T("If checked, all the notifications will be sticky: notifications will persist until explicitly closed. Sticky notifications are tied to a user (if authenticated) or to the session (if anonymous).")</span>
         </li>

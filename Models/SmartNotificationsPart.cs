@@ -14,6 +14,12 @@ namespace Lombiq.SmartNotifications.Models
             set { this.Store(x => x.MakeAllNotificationsFading, value); }
         }
 
+        public int FadingStartTimeMilliseconds
+        {
+            get { return this.Retrieve(x => x.FadingStartTimeMilliseconds, 5000); }
+            set { this.Store(x => x.FadingStartTimeMilliseconds, value); }
+        }
+
         public bool MakeAllNotificationsClosable
         {
             get { return this.Retrieve(x => x.MakeAllNotificationsClosable); }
