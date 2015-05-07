@@ -10,4 +10,4 @@ Features:
         Name: Lombiq SmartNotifications
         Description: Adds the ability to close or fade away or persistent notifications.
         Category: User notifications
-        Dependencies: Piedone.HelpfulLibraries.Utilities
+        Dependencies: Piedone.HelpfulLibraries.Utilities, Shapes
