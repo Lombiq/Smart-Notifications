@@ -8,6 +8,7 @@
 @{
     Script.Require("jQuery").AtFoot();
     Style.Include("lombiq-smartnotifications-style.css");
+    Script.Include("lombiq-smartnotifications.js").AtFoot();
 
     var settings = WorkContext.Resolve<ISiteService>().GetSiteSettings().As<SmartNotificationsPart>();
     var stickyNotificationsApiUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Lombiq.SmartNotifications", controller = "StickyNotification" });
@@ -60,7 +61,9 @@ else if (!settings.MakeAllNotificationsSticky)
                                 }
                             });
                         }
+
                         $(this).parent().hide();
+                        $.smartNotifications.removeMessagesContainerIfNecessary();
                     });
                 });
             })(jQuery);
@@ -77,6 +80,7 @@ else if (!settings.MakeAllNotificationsSticky)
                 $(function () {
                     $(".message > span.close-message").click(function () {
                         $(this).parent().hide();
+                        $.smartNotifications.removeMessagesContainerIfNecessary();
                     });
                 });
             })(jQuery);
@@ -91,7 +95,10 @@ else if (!settings.MakeAllNotificationsSticky)
         <script type="text/javascript">
             (function ($) {
                 $(function () {
-                    setTimeout(function () { $('.message').fadeOut(2000) }, @settings.FadingStartTimeMilliseconds);
+                    setTimeout(function () {
+                        $('.message').fadeOut(2000);
+                        $.smartNotifications.removeMessagesContainerIfNecessary();
+                    }, @settings.FadingStartTimeMilliseconds);
                 });
             })(jQuery);
         </script>

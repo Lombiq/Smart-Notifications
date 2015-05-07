@@ -80,6 +80,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\lombiq-smartnotifications.js" />
     <Content Include="Styles\lombiq-smartnotifications-style.css">
       <DependentUpon>lombiq-smartnotifications-style.less</DependentUpon>
     </Content>
@@ -133,6 +134,9 @@
     <Content Include="Styles\lombiq-smartnotifications-style.css.map">
       <DependentUpon>lombiq-smartnotifications-style.css</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\Web.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
