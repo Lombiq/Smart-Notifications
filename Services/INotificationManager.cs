@@ -12,16 +12,18 @@ namespace Lombiq.SmartNotifications.Services
     public interface INotificationManager : IDependency
     {
         /// <summary>
-        /// This method gets the notifications for the actual user.
+        /// Gets notifications for a given session ID.
         /// </summary>
-        /// <param name="sessionId">The session ID actual user.</param>
+        /// <param name="sessionId">The session ID.</param>
         /// <returns>Returns the notification messages for the actual user.</returns>
         IEnumerable<IStickyNotification> GetNotifications(string sessionId);
 
         /// <summary>
-        /// This method saves the notifications to database.
+        /// Saves notifications to the database. Note that depending on how early in the request you do this save
+        /// won't necessarily cause the notification to be displayed on the next load. If you want that use the
+        /// <see cref="Orchard.UI.Notify.INotifier.Sticky()"/> extension method.
         /// </summary>
-        /// <param name="sessionId">The session ID of the actual user.</param>
+        /// <param name="sessionId">The session ID.</param>
         /// <param name="notificationMessage">The notification message.</param>
         /// <param name="notificationType">The notification type.</param>
         void SaveNotification(string sessionId, string notificationMessage, NotifyType notificationType);
@@ -29,7 +31,7 @@ namespace Lombiq.SmartNotifications.Services
         /// <summary>
         /// This method removes the selected record from the table.
         /// </summary>
-        /// <param name="sessionId">The session ID of the user.</param>
+        /// <param name="sessionId">The session ID.</param>
         /// <param name="id">The unique id of the notification.</param>
         void DeleteNotification(string sessionId, int id);
     }
