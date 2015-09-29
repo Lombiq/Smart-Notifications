@@ -4,10 +4,10 @@ Author: Lombiq
 Website: http://lombiq.com
 Version: 1.0
 OrchardVersion: 1.9.0
-Description: Adds the ability to close or fade away or persistent notifications.
+Description: Adds the ability to have closable, fading or persistent notifications.
 Features:
     Lombiq.SmartNotifications:
         Name: Lombiq SmartNotifications
-        Description: Adds the ability to close or fade away or persistent notifications.
+        Description: Adds the ability to have closable, fading or persistent notifications.
         Category: User notifications
         Dependencies: Piedone.HelpfulLibraries.Utilities, Shapes
