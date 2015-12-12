@@ -7,7 +7,7 @@ OrchardVersion: 1.9.0
 Description: Adds the ability to have closable, fading or persistent notifications.
 Features:
     Lombiq.SmartNotifications:
-        Name: Lombiq SmartNotifications
+        Name: Smart Notifications
         Description: Adds the ability to have closable, fading or persistent notifications.
         Category: User notifications
         Dependencies: Piedone.HelpfulLibraries.Utilities, Shapes
