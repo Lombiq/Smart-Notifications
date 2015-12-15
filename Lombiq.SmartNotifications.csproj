@@ -131,11 +131,6 @@
     <Content Include="Styles\lombiq-smartnotifications-style.less" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Styles\lombiq-smartnotifications-style.css.map">
-      <DependentUpon>lombiq-smartnotifications-style.css</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\Web.config" />
   </ItemGroup>
   <ItemGroup>
