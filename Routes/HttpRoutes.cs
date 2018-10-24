@@ -17,8 +17,8 @@ namespace Lombiq.SmartNotifications.Routes
                 new HttpRouteDescriptor 
                 {
                     Name = "StickyControllerApi",
-                    Priority = 5,
-                    RouteTemplate = "api/{controller}/{id}",
+                    Priority = 10,
+                    RouteTemplate = "api/SmartNotifications/{controller}/{id}",
                     Defaults = new 
                         {
                             area = "Lombiq.SmartNotifications",
